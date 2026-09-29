@@ -44,12 +44,12 @@ DIRECTIONAL_MAP = {
 }
 
 PO_BOX_REGEX = re.compile(
-    r'\b(?:P(?:OST)?\.?\s*O(?:FFICE)?\.?\s*BOX|P\.?\s*O\.?\s*B(?:\.|\b)|POST\s+OFFICE\s+DRAWER|PBOX)\b',
+    r'\b(?:P(?:OST)?\.?\s*(?:O(?:FFICE)?\.?\s*)?BOX|P\.?\s*O\.?\s*B(?:\.|\b)|POST\s+OFFICE\s+DRAWER|PBOX)\b',
     re.IGNORECASE
 )
 
 UNIT_REGEX = re.compile(
-    r'(?:,\s*)?\b(?:(APT|APARTMENT|SUITE|STE|UNIT|BLDG|BUILDING|FL|FLOOR|RM|ROOM|LOT|DEPT)\.?\s*([A-Za-z0-9\-#\/]+)|#\s*([A-Za-z0-9\-]+))\b',
+    r'(?:,\s*)?(?:\b(APARTMENT|APT|SUITE|STE|UNIT|BUILDING|BLDG|FLOOR|FL|ROOM|RM|LOT|DEPT)\b\.?\s*([A-Za-z0-9\-#\/]+)|#\s*([A-Za-z0-9\-]+))\b',
     re.IGNORECASE
 )
 
@@ -109,21 +109,25 @@ def parse_zip(zip_input: str):
         digits = re.sub(r'\D', '', zip_input)
         if len(digits) >= 5:
             return {'zip5': digits[:5], 'zip4': digits[5:9] if len(digits) >= 9 else None}
-        return {'zip5': zip_input.strip(), 'zip4': None}
+        return {'zip5': '', 'zip4': None}
     return {'zip5': m.group(1), 'zip4': m.group(2) if m.group(2) else None}
 
 def standardize_street_name(street_name: str) -> str:
     tokens = street_name.strip().split()
-    normalized_tokens = []
+    length = len(tokens)
+    has_post_directional = length > 1 and re.sub(r'[.,]', '', tokens[-1].lower()) in DIRECTIONAL_MAP
+    suffix_index = length - 2 if has_post_directional else length - 1
+
+    normalized = []
     for index, token in enumerate(tokens):
         lower = re.sub(r'[.,]', '', token.lower())
-        if (index == 0 or index == len(tokens) - 1) and lower in DIRECTIONAL_MAP:
-            normalized_tokens.append(DIRECTIONAL_MAP[lower])
-        elif lower in STREET_SUFFIX_MAP:
-            normalized_tokens.append(STREET_SUFFIX_MAP[lower])
+        if (index == 0 or index == length - 1) and lower in DIRECTIONAL_MAP:
+            normalized.append(DIRECTIONAL_MAP[lower])
+        elif index == suffix_index and lower in STREET_SUFFIX_MAP:
+            normalized.append(STREET_SUFFIX_MAP[lower])
         else:
-            normalized_tokens.append(token.capitalize())
-    return ' '.join(normalized_tokens)
+            normalized.append(token[:1].upper() + token[1:])
+    return ' '.join(normalized)
 
 def format_address(parts):
     unit_part = f" {parts['unitNumber']}" if parts.get('unitNumber') else ''
@@ -145,9 +149,11 @@ def normalize_address(input_str: str, coords=None):
 
     # Sanitize script tags (XSS prevention)
     cleaned = re.sub(r'<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>', '', input_str, flags=re.IGNORECASE).strip()
+    # Strip any remaining HTML tags (e.g. img onerror vectors)
+    cleaned = re.sub(r'<[^>]+>', '', cleaned).strip()
 
     # Sanitize SQL injection meta-characters
-    cleaned = re.sub(r'[\'";]\s*(?:DROP|SELECT|INSERT|DELETE|UPDATE|ALTER|CREATE|EXEC|UNION)[\s\S]*?--', '', cleaned, flags=re.IGNORECASE).strip()
+    cleaned = re.sub(r'[\'";]+\s*(?:DROP|SELECT|INSERT|DELETE|UPDATE|ALTER|CREATE|EXEC|UNION)[\s\S]*?(?:--|;|$)', '', cleaned, flags=re.IGNORECASE).strip()
 
     # Check PO Box
     if is_po_box(cleaned):
@@ -162,27 +168,40 @@ def normalize_address(input_str: str, coords=None):
         lng = coords['lng']
 
     segments = [re.sub(r'\s+', ' ', s.strip()) for s in cleaned.split(',') if s.strip()]
+    if not segments:
+        raise AddressValidationError('Please enter a valid street address.')
 
-    raw_street = segments[0] if segments else ''
+    remaining_segments = list(segments)
+    raw_street = remaining_segments.pop(0)
+
+    # Extract unit if present on the street line
+    raw_street, unit_number = extract_unit_number(raw_street)
+
+    # Check if subsequent comma segment is a standalone unit (e.g. "123 Main St, Apt 4B, New York, NY 10001")
+    if remaining_segments:
+        cand_base, cand_unit = extract_unit_number(remaining_segments[0])
+        if cand_unit and cand_base == '':
+            if not unit_number:
+                unit_number = cand_unit
+            remaining_segments.pop(0)
+
     city = ''
     raw_state_zip = ''
 
-    if len(segments) >= 3:
-        city = segments[1]
-        raw_state_zip = ' '.join(segments[2:])
-    elif len(segments) == 2:
-        raw_state_zip = segments[1]
+    if len(remaining_segments) >= 2:
+        city = remaining_segments[0]
+        raw_state_zip = ' '.join(remaining_segments[1:])
+    elif len(remaining_segments) == 1:
+        raw_state_zip = remaining_segments[0]
 
     street_number = ''
     street_name = ''
-    unit_number = None
 
     rural_match = RURAL_ROUTE_BOX_REGEX.match(raw_street)
     if rural_match:
         street_name = rural_match.group(1)
         street_number = rural_match.group(2)
     else:
-        raw_street, unit_number = extract_unit_number(raw_street)
         num_match = STREET_NUMBER_REGEX.match(raw_street)
         if num_match:
             street_number = num_match.group(1)

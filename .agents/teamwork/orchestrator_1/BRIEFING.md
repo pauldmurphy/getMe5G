@@ -66,12 +66,17 @@ Orchestrate end-to-end delivery of the 5G Home Internet and wireless broadband a
 | explorer_m1_r2_1 | teamwork_preview_explorer | Address Normalizer Fix Plan | completed | 61cf0cd1-6ceb-4be8-bea6-920f7a8188ed |
 | explorer_m1_r2_2 | teamwork_preview_explorer | Cascade Error Handling Fix Plan | completed | 6a74393d-435d-48d2-8ff4-6eb00b697a18 |
 | explorer_m1_r2_3 | teamwork_preview_explorer | Geocoder Country Bounds Fix Plan | completed | 2783b971-f1fd-44e9-afeb-3eed5dbc6f6a |
-| worker_m1_2 | teamwork_preview_worker | Apply M1 Code Fixes | in-progress | a790ae50-2bde-488b-a237-337c6662adb9 |
+| worker_m1_2 | teamwork_preview_worker | Apply M1 Code Fixes | completed | a790ae50-2bde-488b-a237-337c6662adb9 |
+| reviewer_m1_r2_1 | teamwork_preview_reviewer | M1 Codebase Review R2 | in-progress | 06b4ee7e-cf12-4eb4-9367-9216b291e556 |
+| reviewer_m1_r2_2 | teamwork_preview_reviewer | M1 API Review R2 | in-progress | bd0ca418-830a-4665-933b-eea72837ae5c |
+| challenger_m1_r2_1 | teamwork_preview_challenger | M1 Normalization Stress Test R2 | in-progress | ed52de7c-5d0f-4deb-95cd-05c0967698f9 |
+| challenger_m1_r2_2 | teamwork_preview_challenger | M1 Cascade Bounds Stress Test R2 | in-progress | 752e6b13-e5b1-4227-a289-79a4a4994b1a |
+| auditor_m1_r2_1 | teamwork_preview_auditor | M1 Forensic Integrity Audit R2 | in-progress | ce3e3abe-984a-4ab7-b526-363f7ba0dca0 |
 
 ## Succession Status
 - Succession required: no (orchestrator self-spawning not supported by platform; operating directly as permanent orchestrator under 128 quota)
-- Spawn count: 17 / 128
-- Pending subagents: a790ae50-2bde-488b-a237-337c6662adb9
+- Spawn count: 22 / 128
+- Pending subagents: 06b4ee7e-cf12-4eb4-9367-9216b291e556, bd0ca418-830a-4665-933b-eea72837ae5c, ed52de7c-5d0f-4deb-95cd-05c0967698f9, 752e6b13-e5b1-4227-a289-79a4a4994b1a, ce3e3abe-984a-4ab7-b526-363f7ba0dca0
 - Predecessor: none
 - Successor: none (direct execution)
 
