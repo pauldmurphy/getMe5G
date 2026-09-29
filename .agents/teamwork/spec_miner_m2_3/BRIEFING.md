@@ -1,4 +1,4 @@
-# BRIEFING — 2026-09-29T22:33:00Z
+# BRIEFING — 2026-09-29T22:35:45Z
 
 ## Mission
 Author complete specifications and exact TypeScript seed dataset for `src/lib/db/seed.ts` for all 7 retail consumer brands and `fcc_provider_mapping` table using database schema, ORIGINAL_REQUEST.md, PROJECT.md, spec_miner_survey_2/specs.md, and tests/fixtures/fcc-records.json.
@@ -26,7 +26,7 @@ Author complete specifications and exact TypeScript seed dataset for `src/lib/db
 
 ## Current Parent
 - Conversation ID: 097744dd-87b6-414e-a580-658af286e0dd
-- Updated: not yet
+- Updated: 2026-09-29T22:35:45Z
 
 ## Task Summary
 - **What to build**: Author specs and complete TypeScript objects for seed data (brands, plans, fcc_provider_mapping)
@@ -35,11 +35,14 @@ Author complete specifications and exact TypeScript seed dataset for `src/lib/db
 - **Code layout**: src/lib/db/schema.ts, src/lib/db/seed.ts
 
 ## Key Decisions Made
-- [TBD]
+- Standardized brand IDs strictly matching unit/e2e tests: `t-mobile-5g-home`, `metro-by-t-mobile`, `verizon-5g-home`, `straight-talk-home`, `total-wireless-home`, `att-internet-air`, `starlink-residential`.
+- Extracted exact speed boundaries and equipment fee distinctions (postpaid $0 equipment rental vs. prepaid $49 Metro, $99 Straight Talk / Total, $599 Starlink kit).
+- Mapped FCC BDC records from `tests/fixtures/fcc-records.json`: T-Mobile (FRN 0001565480, ID 130077) to T-Mobile & Metro; Verizon (FRN 0003290673, ID 130403, Tech 71 & 72) to Verizon, Straight Talk, & Total Wireless; AT&T (FRN 0005050851, ID 130079) to AT&T Internet Air; SpaceX (FRN 0027768225, ID 131444) to Starlink.
+- Authored drop-in verbatim `src/lib/db/seed.ts` blueprint supporting both CLI invocation (`tsx src/lib/db/seed.ts`) and programmatic testing with in-memory SQLite.
 
 ## Artifact Index
 - DISPATCH.md — Assignment instructions
 - BRIEFING.md — Situational awareness
 - progress.md — Liveness heartbeat
-- specs.md — Brand Catalog, Plans, and FCC Provider Mapping specifications
-- handoff.md — 5-component handoff report
+- specs.md — Detailed brand catalog, plan matrix, FCC provider mapping, and complete TypeScript seed objects
+- handoff.md — Authoritative 5-component handoff report with drop-in code
