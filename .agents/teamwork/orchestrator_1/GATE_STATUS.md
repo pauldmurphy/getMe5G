@@ -16,10 +16,10 @@ Gate Result: **FAIL** (Reviewers requested changes on `normalizer.ts` regex/unit
 | Agent | Role | Verdict | Source |
 |-------|------|---------|--------|
 | worker_m1_2 | teamwork_preview_worker | DONE | handoff.md |
-| reviewer_m1_r2_1 | teamwork_preview_reviewer | PENDING | handoff.md |
-| reviewer_m1_r2_2 | teamwork_preview_reviewer | PENDING | handoff.md |
-| challenger_m1_r2_1 | teamwork_preview_challenger | PENDING | handoff.md |
-| challenger_m1_r2_2 | teamwork_preview_challenger | PENDING | handoff.md |
-| auditor_m1_r2_1 | teamwork_preview_auditor | PENDING | handoff.md |
+| reviewer_m1_r2_1 | teamwork_preview_reviewer | APPROVE | handoff.md |
+| reviewer_m1_r2_2 | teamwork_preview_reviewer | APPROVE | handoff.md |
+| challenger_m1_r2_1 | teamwork_preview_challenger | APPROVE | handoff.md |
+| challenger_m1_r2_2 | teamwork_preview_challenger | APPROVE | handoff.md |
+| auditor_m1_r2_1 | teamwork_preview_auditor | CLEAN | handoff.md |
 
-Gate Result: **IN_PROGRESS**
+Gate Result: **PASS**

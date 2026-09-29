@@ -71,12 +71,15 @@ Orchestrate end-to-end delivery of the 5G Home Internet and wireless broadband a
 | reviewer_m1_r2_2 | teamwork_preview_reviewer | M1 API Review R2 | in-progress | bd0ca418-830a-4665-933b-eea72837ae5c |
 | challenger_m1_r2_1 | teamwork_preview_challenger | M1 Normalization Stress Test R2 | in-progress | ed52de7c-5d0f-4deb-95cd-05c0967698f9 |
 | challenger_m1_r2_2 | teamwork_preview_challenger | M1 Cascade Bounds Stress Test R2 | in-progress | 752e6b13-e5b1-4227-a289-79a4a4994b1a |
-| auditor_m1_r2_1 | teamwork_preview_auditor | M1 Forensic Integrity Audit R2 | in-progress | ce3e3abe-984a-4ab7-b526-363f7ba0dca0 |
+| auditor_m1_r2_1 | teamwork_preview_auditor | M1 Forensic Integrity Audit R2 | completed | ce3e3abe-984a-4ab7-b526-363f7ba0dca0 |
+| explorer_m2_1 | teamwork_preview_explorer | DB Schema & Client Design | in-progress | d82b8a08-c425-4ca7-b1eb-a35a1547afc9 |
+| explorer_m2_2 | teamwork_preview_explorer | Multi-Tier Cache Design | in-progress | 6aa4a6fd-3310-4439-aeb6-0dcb315d2d3c |
+| spec_miner_m2_3 | teamwork_preview_spec_miner | Catalog & Plans Dataset Spec | in-progress | b1326604-4baf-4cfd-aa84-80bde157812f |
 
 ## Succession Status
 - Succession required: no (orchestrator self-spawning not supported by platform; operating directly as permanent orchestrator under 128 quota)
-- Spawn count: 22 / 128
-- Pending subagents: 06b4ee7e-cf12-4eb4-9367-9216b291e556, bd0ca418-830a-4665-933b-eea72837ae5c, ed52de7c-5d0f-4deb-95cd-05c0967698f9, 752e6b13-e5b1-4227-a289-79a4a4994b1a, ce3e3abe-984a-4ab7-b526-363f7ba0dca0
+- Spawn count: 25 / 128
+- Pending subagents: d82b8a08-c425-4ca7-b1eb-a35a1547afc9, 6aa4a6fd-3310-4439-aeb6-0dcb315d2d3c, b1326604-4baf-4cfd-aa84-80bde157812f
 - Predecessor: none
 - Successor: none (direct execution)
 

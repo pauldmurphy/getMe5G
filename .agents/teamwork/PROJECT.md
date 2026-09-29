@@ -97,7 +97,7 @@ Every feature identified during the Survey phase is mapped to a designated miles
 
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| M1 | Address Intake & Pluggable Geocoding System (R1) | Project scaffolding, Next.js, TS, Tailwind, shadcn setup, Census Geocoder, Komoot Photon, OSM Nominatim, Google/Mapbox adapters, AddressNormalizer, `/api/geocode/*` routes | None | PLANNED |
+| M1 | Address Intake & Pluggable Geocoding System (R1) | Project scaffolding, Next.js, TS, Tailwind, shadcn setup, Census Geocoder, Komoot Photon, OSM Nominatim, Google/Mapbox adapters, AddressNormalizer, `/api/geocode/*` routes | None | DONE |
 | M2 | Provider Catalog & Multi-Tier Caching (R3) | Drizzle ORM SQLite schema, catalog seeds (all 7 brands & plans), L1 LRU memory cache, L2 coordinate cache | None | PLANNED |
 | M3 | Hybrid Availability Engine & Brand Resolution (R2) | FCC BDC data loader, `IProviderChecker` implementations, 1.5s timeout enforcement, resilient fallback, multi-brand arbitrage mapper | M1, M2 | PLANNED |
 | M4 | Availability API & Comparison UI (R4) | `GET /api/availability`, Search Bar, Results Header, Comparison Grid Cards, Filter/Sort Bar, Satellite Fallback Banner | M3 | PLANNED |
