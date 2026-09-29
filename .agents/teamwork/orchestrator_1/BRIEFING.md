@@ -50,14 +50,27 @@ Orchestrate end-to-end delivery of the 5G Home Internet and wireless broadband a
 ## Team Roster
 | Agent | Type | Work Item | Status | Conv ID |
 |-------|------|-----------|--------|---------|
-| explorer_survey_1 | teamwork_preview_explorer | Survey codebase & framework | in-progress | 613773a9-a4a6-4dd6-8dc6-1f8baff02a24 |
-| spec_miner_survey_2 | teamwork_preview_spec_miner | Specifications & API contracts | in-progress | 2a6af314-4c52-4682-8bec-819aa2ae7b33 |
-| explorer_survey_3 | teamwork_preview_explorer | Test harness & strategy | in-progress | 00f926d3-1b2a-4e6a-b622-fe609918a028 |
+| explorer_survey_1 | teamwork_preview_explorer | Survey codebase & framework | completed | 613773a9-a4a6-4dd6-8dc6-1f8baff02a24 |
+| spec_miner_survey_2 | teamwork_preview_spec_miner | Specifications & API contracts | completed | 2a6af314-4c52-4682-8bec-819aa2ae7b33 |
+| explorer_survey_3 | teamwork_preview_explorer | Test harness & strategy | completed | 00f926d3-1b2a-4e6a-b622-fe609918a028 |
+| explorer_m1_1 | teamwork_preview_explorer | M1 Scaffolding & Setup Blueprint | in-progress | 5e07ce50-3e45-4db6-9120-eb0f98b3202c |
+| explorer_m1_2 | teamwork_preview_explorer | M1 Geocoding Cascade Blueprint | in-progress | 56143eec-02c2-44ff-8113-c97d219246b1 |
+| spec_miner_m1_3 | teamwork_preview_spec_miner | M1 API Routes Specifications | in-progress | 5234e0ce-c563-4fef-a306-1ce8622dc0d3 |
+| test_writer_track_1 | teamwork_preview_test_writer | E2E Testing Track Suites | in-progress | a4db92e1-ec10-443b-9e2f-8ce5cbfe056e |
+| worker_m1_1 | teamwork_preview_worker | Milestone 1 Implementation | completed | 4b9bea28-db69-4482-9482-cc513f227a70 |
+| reviewer_m1_1 | teamwork_preview_reviewer | M1 Codebase Review | in-progress | 3baed4bf-1df7-4163-bf1c-ea7e8b53d9c3 |
+| reviewer_m1_2 | teamwork_preview_reviewer | M1 API Review | in-progress | d6156d24-cf4b-4c55-be3c-6e8f23811463 |
+| challenger_m1_1 | teamwork_preview_challenger | M1 Normalization Stress Test | in-progress | 40be56d9-1c8b-4f12-87b3-d7d815f034a1 |
+| challenger_m1_2 | teamwork_preview_challenger | M1 Resilience & Timeout Stress Test | in-progress | 36c59c52-f64e-4088-b319-ec76edd9abc3 |
+| auditor_m1_1 | teamwork_preview_auditor | M1 Forensic Integrity Audit | completed | e4c33d31-a1ac-42d6-bd54-726b78eca4bb |
+| explorer_m1_r2_1 | teamwork_preview_explorer | Address Normalizer Fix Plan | in-progress | 61cf0cd1-6ceb-4be8-bea6-920f7a8188ed |
+| explorer_m1_r2_2 | teamwork_preview_explorer | Cascade Error Handling Fix Plan | in-progress | 6a74393d-435d-48d2-8ff4-6eb00b697a18 |
+| explorer_m1_r2_3 | teamwork_preview_explorer | Geocoder Country Bounds Fix Plan | in-progress | 2783b971-f1fd-44e9-afeb-3eed5dbc6f6a |
 
 ## Succession Status
-- Succession required: no
-- Spawn count: 3 / 16
-- Pending subagents: 613773a9-a4a6-4dd6-8dc6-1f8baff02a24, 2a6af314-4c52-4682-8bec-819aa2ae7b33, 00f926d3-1b2a-4e6a-b622-fe609918a028
+- Succession required: yes (upon completion of current 3 explorers)
+- Spawn count: 16 / 16
+- Pending subagents: 61cf0cd1-6ceb-4be8-bea6-920f7a8188ed, 6a74393d-435d-48d2-8ff4-6eb00b697a18, 2783b971-f1fd-44e9-afeb-3eed5dbc6f6a
 - Predecessor: none
 - Successor: not yet spawned
 

@@ -17,3 +17,8 @@ Operating Constraints:
 - Maintain progress.md in your working directory with timestamps for liveness.
 - Document your findings in analysis.md and summarize in handoff.md in your working directory.
 - When finished, send a message to parent with your handoff summary and path to your handoff.md.
+
+## 2026-09-29T21:59:14Z
+**Context**: Surveying repository
+**Content**: Note that run_command may require interactive approval or get stuck. Please prioritize using native tools such as `list_dir`, `find_by_name`, `view_file`, and `grep_search` to survey the files, directories, package.json, configs, and existing codebase.
+**Action**: Inspect the repository via filesystem inspection tools and complete your analysis.md and handoff.md.

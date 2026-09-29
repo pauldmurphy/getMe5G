@@ -1,0 +1,538 @@
+{
+  "urban": {
+    "query": "350 5th Ave, New York, NY 10118",
+    "normalized": {
+      "streetNumber": "350",
+      "streetName": "5th Ave",
+      "unitNumber": null,
+      "city": "New York",
+      "state": "NY",
+      "zip5": "10118",
+      "zip4": null,
+      "lat": 40.7484,
+      "lng": -73.9857,
+      "formattedAddress": "350 5th Ave, New York, NY 10118",
+      "geocoderSource": "census",
+      "confidenceScore": 0.98
+    },
+    "suggestions": [
+      {
+        "id": "sugg-urban-1",
+        "label": "350 5th Ave, New York, NY 10118",
+        "streetLine": "350 5th Ave",
+        "city": "New York",
+        "state": "NY",
+        "zip5": "10118",
+        "lat": 40.7484,
+        "lng": -73.9857,
+        "source": "census"
+      },
+      {
+        "id": "sugg-urban-2",
+        "label": "350 5th Ave Apt 12A, New York, NY 10118",
+        "streetLine": "350 5th Ave Apt 12A",
+        "city": "New York",
+        "state": "NY",
+        "zip5": "10118",
+        "lat": 40.7484,
+        "lng": -73.9857,
+        "source": "census"
+      }
+    ],
+    "availability": {
+      "status": "success",
+      "query": {
+        "submittedAddress": "350 5th Ave, New York, NY 10118",
+        "resolvedAddress": {
+          "streetNumber": "350",
+          "streetName": "5th Ave",
+          "unitNumber": null,
+          "city": "New York",
+          "state": "NY",
+          "zip5": "10118",
+          "lat": 40.7484,
+          "lng": -73.9857,
+          "formattedAddress": "350 5th Ave, New York, NY 10118"
+        }
+      },
+      "summary": {
+        "totalProvidersAvailable": 6,
+        "lowestMonthlyPrice": 40,
+        "maxDownloadSpeedMbps": 300,
+        "hasTerrestrial5G": true,
+        "hasSatelliteOnly": false,
+        "primaryRecommendationBrandId": "metro-by-t-mobile"
+      },
+      "telemetry": {
+        "responseTimeMs": 420,
+        "cacheHit": false,
+        "cacheLayer": "none",
+        "carrierCheckStatus": {
+          "tmobile": "live_success",
+          "verizon": "live_success",
+          "att": "live_success",
+          "starlink": "live_success"
+        }
+      },
+      "providers": [
+        {
+          "brandId": "t-mobile-5g-home",
+          "brandName": "T-Mobile 5G Home Internet",
+          "networkOperator": "T-Mobile",
+          "technologyType": "5G_FWA",
+          "status": "available",
+          "confidence": "verified_live",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 72,
+            "downloadMaxMbps": 245,
+            "uploadMinMbps": 15,
+            "uploadMaxMbps": 31,
+            "displaySpeed": "72 - 245 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 60,
+            "autopayDiscountPrice": 50,
+            "bundledMobilePrice": 40,
+            "equipmentUpfrontCost": 0,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "No annual contract",
+            "priceLockGuarantee": "Price Lock Guarantee",
+            "creditCheckRequired": true
+          },
+          "keyFeatures": [
+            "Wi-Fi 6 Gateway included",
+            "Unlimited 5G data",
+            "$40/mo with voice bundle"
+          ],
+          "arbitrageNotes": "Flagship postpaid service on T-Mobile Ultra Capacity 5G.",
+          "officialSignupUrl": "https://www.t-mobile.com/home-internet"
+        },
+        {
+          "brandId": "metro-by-t-mobile",
+          "brandName": "Metro by T-Mobile",
+          "networkOperator": "T-Mobile",
+          "technologyType": "5G_FWA",
+          "status": "available",
+          "confidence": "verified_live",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 72,
+            "downloadMaxMbps": 245,
+            "uploadMinMbps": 15,
+            "uploadMaxMbps": 31,
+            "displaySpeed": "72 - 245 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 55,
+            "autopayDiscountPrice": 40,
+            "bundledMobilePrice": null,
+            "equipmentUpfrontCost": 49,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "Prepaid / No contract",
+            "priceLockGuarantee": "Flat rate pricing",
+            "creditCheckRequired": false
+          },
+          "keyFeatures": [
+            "No credit check",
+            "Same T-Mobile 5G network towers",
+            "$40/mo with phone line promo"
+          ],
+          "arbitrageNotes": "Prepaid alternative sharing T-Mobile 5G infrastructure at lower monthly cost.",
+          "officialSignupUrl": "https://www.metrobyt-mobile.com/home-internet"
+        },
+        {
+          "brandId": "verizon-5g-home",
+          "brandName": "Verizon 5G Home",
+          "networkOperator": "Verizon",
+          "technologyType": "5G_FWA",
+          "status": "available",
+          "confidence": "verified_live",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 85,
+            "downloadMaxMbps": 300,
+            "uploadMinMbps": 10,
+            "uploadMaxMbps": 20,
+            "displaySpeed": "85 - 300 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 60,
+            "autopayDiscountPrice": 50,
+            "bundledMobilePrice": 35,
+            "equipmentUpfrontCost": 0,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "No annual contract",
+            "priceLockGuarantee": "2-Year Price Guarantee",
+            "creditCheckRequired": true
+          },
+          "keyFeatures": [
+            "Verizon Internet Gateway included",
+            "$35/mo with select 5G mobile plan",
+            "2-Year price guarantee"
+          ],
+          "arbitrageNotes": "Postpaid flagship on Verizon 5G Ultra Wideband.",
+          "officialSignupUrl": "https://www.verizon.com/home/5g"
+        },
+        {
+          "brandId": "straight-talk-home",
+          "brandName": "Straight Talk Home Internet",
+          "networkOperator": "Verizon",
+          "technologyType": "5G_FWA",
+          "status": "available",
+          "confidence": "verified_live",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 25,
+            "downloadMaxMbps": 100,
+            "uploadMinMbps": 5,
+            "uploadMaxMbps": 10,
+            "displaySpeed": "25 - 100 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 45,
+            "autopayDiscountPrice": 45,
+            "bundledMobilePrice": null,
+            "equipmentUpfrontCost": 99,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "Prepaid / No contract",
+            "priceLockGuarantee": "Flat rate pricing",
+            "creditCheckRequired": false
+          },
+          "keyFeatures": [
+            "No credit check",
+            "Runs on Verizon 5G network",
+            "Walmart router purchase ($99)"
+          ],
+          "arbitrageNotes": "Prepaid Verizon network access at fixed $45/mo.",
+          "officialSignupUrl": "https://www.straighttalk.com/5g-home-internet"
+        },
+        {
+          "brandId": "total-wireless-home",
+          "brandName": "Total Wireless Home Internet",
+          "networkOperator": "Verizon",
+          "technologyType": "5G_FWA",
+          "status": "available",
+          "confidence": "verified_live",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 25,
+            "downloadMaxMbps": 100,
+            "uploadMinMbps": 5,
+            "uploadMaxMbps": 10,
+            "displaySpeed": "25 - 100 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 45,
+            "autopayDiscountPrice": 45,
+            "bundledMobilePrice": 35,
+            "equipmentUpfrontCost": 99,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "Prepaid / No contract",
+            "priceLockGuarantee": "5-Year Price Guarantee",
+            "creditCheckRequired": false
+          },
+          "keyFeatures": [
+            "No credit check",
+            "Runs on Verizon 5G network",
+            "$35/mo with Total Wireless Unlimited mobile plan"
+          ],
+          "arbitrageNotes": "Verizon-backed prepaid brand with multi-year price guarantee.",
+          "officialSignupUrl": "https://www.totalwireless.com/home-internet"
+        },
+        {
+          "brandId": "att-internet-air",
+          "brandName": "AT&T Internet Air",
+          "networkOperator": "AT&T",
+          "technologyType": "5G_FWA",
+          "status": "available",
+          "confidence": "verified_live",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 75,
+            "downloadMaxMbps": 225,
+            "uploadMinMbps": 10,
+            "uploadMaxMbps": 25,
+            "displaySpeed": "75 - 225 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 60,
+            "autopayDiscountPrice": 60,
+            "bundledMobilePrice": 35,
+            "equipmentUpfrontCost": 0,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "No annual contract",
+            "priceLockGuarantee": null,
+            "creditCheckRequired": true
+          },
+          "keyFeatures": [
+            "AT&T All-Fi Hub included",
+            "$35/mo bundled with AT&T postpaid mobile",
+            "Unlimited data"
+          ],
+          "arbitrageNotes": "AT&T 5G fixed wireless solution.",
+          "officialSignupUrl": "https://www.att.com/internet/internet-air/"
+        }
+      ]
+    }
+  },
+  "suburban": {
+    "query": "456 Oak Rd, Naperville, IL 60540",
+    "normalized": {
+      "streetNumber": "456",
+      "streetName": "Oak Rd",
+      "unitNumber": null,
+      "city": "Naperville",
+      "state": "IL",
+      "zip5": "60540",
+      "zip4": null,
+      "lat": 41.7508,
+      "lng": -88.1535,
+      "formattedAddress": "456 Oak Rd, Naperville, IL 60540",
+      "geocoderSource": "photon",
+      "confidenceScore": 0.95
+    },
+    "suggestions": [
+      {
+        "id": "sugg-suburban-1",
+        "label": "456 Oak Rd, Naperville, IL 60540",
+        "streetLine": "456 Oak Rd",
+        "city": "Naperville",
+        "state": "IL",
+        "zip5": "60540",
+        "lat": 41.7508,
+        "lng": -88.1535,
+        "source": "photon"
+      }
+    ],
+    "availability": {
+      "status": "success",
+      "query": {
+        "submittedAddress": "456 Oak Rd, Naperville, IL 60540",
+        "resolvedAddress": {
+          "streetNumber": "456",
+          "streetName": "Oak Rd",
+          "unitNumber": null,
+          "city": "Naperville",
+          "state": "IL",
+          "zip5": "60540",
+          "lat": 41.7508,
+          "lng": -88.1535,
+          "formattedAddress": "456 Oak Rd, Naperville, IL 60540"
+        }
+      },
+      "summary": {
+        "totalProvidersAvailable": 2,
+        "lowestMonthlyPrice": 40,
+        "maxDownloadSpeedMbps": 245,
+        "hasTerrestrial5G": true,
+        "hasSatelliteOnly": false,
+        "primaryRecommendationBrandId": "metro-by-t-mobile"
+      },
+      "telemetry": {
+        "responseTimeMs": 310,
+        "cacheHit": false,
+        "cacheLayer": "none",
+        "carrierCheckStatus": {
+          "tmobile": "live_success",
+          "verizon": "unavailable",
+          "att": "unavailable",
+          "starlink": "live_success"
+        }
+      },
+      "providers": [
+        {
+          "brandId": "t-mobile-5g-home",
+          "brandName": "T-Mobile 5G Home Internet",
+          "networkOperator": "T-Mobile",
+          "technologyType": "5G_FWA",
+          "status": "available",
+          "confidence": "verified_live",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 72,
+            "downloadMaxMbps": 245,
+            "uploadMinMbps": 15,
+            "uploadMaxMbps": 31,
+            "displaySpeed": "72 - 245 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 60,
+            "autopayDiscountPrice": 50,
+            "bundledMobilePrice": 40,
+            "equipmentUpfrontCost": 0,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "No annual contract",
+            "priceLockGuarantee": "Price Lock Guarantee",
+            "creditCheckRequired": true
+          },
+          "keyFeatures": [
+            "Wi-Fi 6 Gateway included",
+            "Unlimited 5G data",
+            "$40/mo with voice bundle"
+          ],
+          "arbitrageNotes": "Flagship postpaid service on T-Mobile Ultra Capacity 5G.",
+          "officialSignupUrl": "https://www.t-mobile.com/home-internet"
+        },
+        {
+          "brandId": "metro-by-t-mobile",
+          "brandName": "Metro by T-Mobile",
+          "networkOperator": "T-Mobile",
+          "technologyType": "5G_FWA",
+          "status": "available",
+          "confidence": "verified_live",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 72,
+            "downloadMaxMbps": 245,
+            "uploadMinMbps": 15,
+            "uploadMaxMbps": 31,
+            "displaySpeed": "72 - 245 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 55,
+            "autopayDiscountPrice": 40,
+            "bundledMobilePrice": null,
+            "equipmentUpfrontCost": 49,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "Prepaid / No contract",
+            "priceLockGuarantee": "Flat rate pricing",
+            "creditCheckRequired": false
+          },
+          "keyFeatures": [
+            "No credit check",
+            "Same T-Mobile 5G network towers",
+            "$40/mo with phone line promo"
+          ],
+          "arbitrageNotes": "Prepaid alternative sharing T-Mobile 5G infrastructure at lower monthly cost.",
+          "officialSignupUrl": "https://www.metrobyt-mobile.com/home-internet"
+        }
+      ]
+    }
+  },
+  "rural": {
+    "query": "Route 1 Box 42, Big Piney, WY 83113",
+    "normalized": {
+      "streetNumber": "Box 42",
+      "streetName": "Route 1",
+      "unitNumber": null,
+      "city": "Big Piney",
+      "state": "WY",
+      "zip5": "83113",
+      "zip4": null,
+      "lat": 42.5422,
+      "lng": -110.1111,
+      "formattedAddress": "Route 1 Box 42, Big Piney, WY 83113",
+      "geocoderSource": "census",
+      "confidenceScore": 0.88
+    },
+    "suggestions": [
+      {
+        "id": "sugg-rural-1",
+        "label": "Route 1 Box 42, Big Piney, WY 83113",
+        "streetLine": "Route 1 Box 42",
+        "city": "Big Piney",
+        "state": "WY",
+        "zip5": "83113",
+        "lat": 42.5422,
+        "lng": -110.1111,
+        "source": "census"
+      }
+    ],
+    "availability": {
+      "status": "success",
+      "query": {
+        "submittedAddress": "Route 1 Box 42, Big Piney, WY 83113",
+        "resolvedAddress": {
+          "streetNumber": "Box 42",
+          "streetName": "Route 1",
+          "unitNumber": null,
+          "city": "Big Piney",
+          "state": "WY",
+          "zip5": "83113",
+          "lat": 42.5422,
+          "lng": -110.1111,
+          "formattedAddress": "Route 1 Box 42, Big Piney, WY 83113"
+        }
+      },
+      "summary": {
+        "totalProvidersAvailable": 1,
+        "lowestMonthlyPrice": 120,
+        "maxDownloadSpeedMbps": 220,
+        "hasTerrestrial5G": false,
+        "hasSatelliteOnly": true,
+        "primaryRecommendationBrandId": "starlink-residential"
+      },
+      "telemetry": {
+        "responseTimeMs": 190,
+        "cacheHit": false,
+        "cacheLayer": "none",
+        "carrierCheckStatus": {
+          "tmobile": "unavailable",
+          "verizon": "unavailable",
+          "att": "unavailable",
+          "starlink": "live_success"
+        }
+      },
+      "fallbackNotice": "No terrestrial 5G Home Internet available at this address. Showing best alternative wireless & satellite broadband options:",
+      "providers": [
+        {
+          "brandId": "starlink-residential",
+          "brandName": "Starlink",
+          "networkOperator": "Starlink",
+          "technologyType": "SATELLITE_LEO",
+          "status": "available",
+          "confidence": "satellite_universal",
+          "source": "live_preflight",
+          "speeds": {
+            "downloadMinMbps": 50,
+            "downloadMaxMbps": 220,
+            "uploadMinMbps": 10,
+            "uploadMaxMbps": 25,
+            "displaySpeed": "50 - 220 Mbps"
+          },
+          "pricing": {
+            "startingMonthlyPrice": 120,
+            "autopayDiscountPrice": 120,
+            "bundledMobilePrice": null,
+            "equipmentUpfrontCost": 599,
+            "equipmentMonthlyFee": 0,
+            "contractTerms": "No contract / 30-day trial",
+            "priceLockGuarantee": null,
+            "creditCheckRequired": false
+          },
+          "keyFeatures": [
+            "Low Earth Orbit satellite coverage",
+            "Hardware kit purchase required ($599)",
+            "High-speed rural broadband anywhere with clear sky view"
+          ],
+          "arbitrageNotes": "Universal satellite baseline for rural areas outside cellular fixed wireless coverage.",
+          "officialSignupUrl": "https://www.starlink.com/residential"
+        }
+      ]
+    }
+  },
+  "invalid": {
+    "nonexistent": {
+      "query": "99999 Nonexistent Blvd, Nowhere, ZZ 00000",
+      "error": "Address not found. Please verify the street number, city, and 5-digit zip code.",
+      "suggestions": [],
+      "availability": {
+        "status": "error",
+        "message": "We couldn't locate this address. Please verify the street number and 5-digit zip code.",
+        "code": "ADDRESS_NOT_FOUND"
+      }
+    },
+    "empty": {
+      "query": "   ",
+      "error": "Please enter a valid street address.",
+      "code": "EMPTY_ADDRESS"
+    },
+    "poBox": {
+      "query": "PO Box 1234, Dallas, TX 75201",
+      "isPoBox": true,
+      "error": "5G Home Internet requires a physical residential street address. PO Boxes are not eligible for fixed wireless service.",
+      "code": "PO_BOX_NOT_SUPPORTED"
+    }
+  }
+}
