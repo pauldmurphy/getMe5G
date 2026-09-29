@@ -1,0 +1,140 @@
+--- src/lib/geocoding/normalizer.ts	2026-09-29 18:08:37.567274795 -0400
++++ .agents/teamwork/explorer_m1_r2_1/proposed_normalizer.ts	2026-09-29 18:20:57.605025263 -0400
+@@ -138,8 +138,8 @@
+ };
+ 
+ // Regular Expressions
+-export const PO_BOX_REGEX = /\b(?:P(?:OST)?\.?\s*O(?:FFICE)?\.?\s*BOX|P\.?\s*O\.?\s*B(?:\.|\b)|POST\s+OFFICE\s+DRAWER|PBOX)\b/i;
+-const UNIT_REGEX = /(?:,\s*)?\b(?:(APT|APARTMENT|SUITE|STE|UNIT|BLDG|BUILDING|FL|FLOOR|RM|ROOM|LOT|DEPT)\.?\s*([A-Za-z0-9\-#\/]+)|#\s*([A-Za-z0-9\-]+))\b/i;
++export const PO_BOX_REGEX = /\b(?:P(?:OST)?\.?\s*(?:O(?:FFICE)?\.?\s*)?BOX|P\.?\s*O\.?\s*B(?:\.|\b)|POST\s+OFFICE\s+DRAWER|PBOX)\b/i;
++const UNIT_REGEX = /(?:,\s*)?(?:\b(APARTMENT|APT|SUITE|STE|UNIT|BUILDING|BLDG|FLOOR|FL|ROOM|RM|LOT|DEPT)\b\.?\s*([A-Za-z0-9\-#\/]+)|#\s*([A-Za-z0-9\-]+))\b/i;
+ const ZIP_REGEX = /\b(\d{5})(?:[-\s](\d{4}))?\b/;
+ const STREET_NUMBER_REGEX = /^([0-9]+(?:\s+1\/[2-4])?|[0-9]+-[0-9]+|[A-Z][0-9]+[A-Z][0-9]+)\s+(.+)$/i;
+ const RURAL_ROUTE_BOX_REGEX = /^(Route\s+\d+|RR\s+\d+|Rural\s+Route\s+\d+)\s+(Box\s+\d+)\b/i;
+@@ -229,9 +229,11 @@
+ 
+   // Sanitize script tags (XSS prevention)
+   let cleaned = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').trim();
++  // Strip any remaining HTML tags (e.g. img onerror vectors)
++  cleaned = cleaned.replace(/<[^>]+>/g, '').trim();
+ 
+   // Sanitize SQL injection meta-characters
+-  cleaned = cleaned.replace(/['";]\s*(?:DROP|SELECT|INSERT|DELETE|UPDATE|ALTER|CREATE|EXEC|UNION)[\s\S]*?--/gi, '').trim();
++  cleaned = cleaned.replace(/['";]+\s*(?:DROP|SELECT|INSERT|DELETE|UPDATE|ALTER|CREATE|EXEC|UNION)[\s\S]*?(?:--|;|$)/gi, '').trim();
+ 
+   // Check PO Box
+   if (isPoBox(cleaned)) {
+@@ -249,33 +251,48 @@
+ 
+   // Parse comma-delimited segments or freeform string
+   const segments = cleaned.split(',').map((s) => s.trim().replace(/\s+/g, ' ')).filter(Boolean);
++  if (!segments.length) {
++    throw new AddressValidationError('Please enter a valid street address.');
++  }
++
++  const remainingSegments = [...segments];
++  let rawStreet = remainingSegments.shift() || '';
++
++  // Extract unit if present on the street line
++  const extractedUnit = extractUnitNumber(rawStreet);
++  rawStreet = extractedUnit.baseStreet;
++  let unitNumber: string | null = extractedUnit.unitNumber;
++
++  // Check if subsequent comma segment is a standalone unit (e.g. "123 Main St, Apt 4B, New York, NY 10001")
++  if (remainingSegments.length > 0) {
++    const candidateUnit = extractUnitNumber(remainingSegments[0]);
++    if (candidateUnit.unitNumber && candidateUnit.baseStreet === '') {
++      if (!unitNumber) {
++        unitNumber = candidateUnit.unitNumber;
++      }
++      remainingSegments.shift();
++    }
++  }
+ 
+-  let rawStreet = segments[0] || '';
+   let city = '';
+   let rawStateZip = '';
+ 
+-  if (segments.length >= 3) {
+-    city = segments[1];
+-    rawStateZip = segments.slice(2).join(' ');
+-  } else if (segments.length === 2) {
+-    rawStateZip = segments[1];
++  if (remainingSegments.length >= 2) {
++    city = remainingSegments[0];
++    rawStateZip = remainingSegments.slice(1).join(' ');
++  } else if (remainingSegments.length === 1) {
++    rawStateZip = remainingSegments[0];
+   }
+ 
+   // Check for Rural Route Box (e.g., "Route 1 Box 42, Big Piney, WY 83113")
+   let streetNumber = '';
+   let streetName = '';
+-  let unitNumber: string | null = null;
+ 
+   const ruralMatch = rawStreet.match(RURAL_ROUTE_BOX_REGEX);
+   if (ruralMatch) {
+     streetName = ruralMatch[1];
+     streetNumber = ruralMatch[2]; // "Box 42"
+   } else {
+-    // Extract unit if present
+-    const extractedUnit = extractUnitNumber(rawStreet);
+-    rawStreet = extractedUnit.baseStreet;
+-    unitNumber = extractedUnit.unitNumber;
+-
+     // Extract street number
+     const numMatch = rawStreet.match(STREET_NUMBER_REGEX);
+     if (numMatch) {
+@@ -305,8 +322,8 @@
+   }
+ 
+   // If city was not extracted from comma segments, attempt fallback parsing
+-  if (!city && segments.length === 2) {
+-    const words = segments[1].split(' ').filter(Boolean);
++  if (!city && remainingSegments.length === 1) {
++    const words = remainingSegments[0].split(' ').filter(Boolean);
+     if (words.length > 2) {
+       city = words.slice(0, words.length - 2).join(' ');
+       state = normalizeState(words[words.length - 2]);
+@@ -387,7 +404,7 @@
+           zip4: digits.length >= 9 ? digits.slice(5, 9) : null,
+         };
+       }
+-      return { zip5: zipInput.trim(), zip4: null };
++      return { zip5: '', zip4: null };
+     }
+ 
+     return {
+@@ -445,14 +462,18 @@
+    */
+   public static standardizeStreetName(streetName: string): string {
+     const tokens = streetName.trim().split(/\s+/);
++    const len = tokens.length;
++    const hasPostDirectional = len > 1 && Boolean(DIRECTIONAL_MAP[tokens[len - 1].toLowerCase().replace(/[.,]/g, '')]);
++    const suffixIndex = hasPostDirectional ? len - 2 : len - 1;
++
+     const normalizedTokens = tokens.map((token, index) => {
+       const lower = token.toLowerCase().replace(/[.,]/g, '');
+       // Check directional (at beginning or end of street name)
+-      if ((index === 0 || index === tokens.length - 1) && DIRECTIONAL_MAP[lower]) {
++      if ((index === 0 || index === len - 1) && DIRECTIONAL_MAP[lower]) {
+         return DIRECTIONAL_MAP[lower];
+       }
+-      // Check street suffix
+-      if (STREET_SUFFIX_MAP[lower]) {
++      // Check street suffix only at designated suffix position
++      if (index === suffixIndex && STREET_SUFFIX_MAP[lower]) {
+         return STREET_SUFFIX_MAP[lower];
+       }
+       return token.charAt(0).toUpperCase() + token.slice(1);
+@@ -478,8 +499,8 @@
+     let unitNumber = components.unitNumber?.trim() || null;
+ 
+     // Check if PO Box
+-    if (this.isPoBox(rawStreetName) || this.isPoBox(components.rawAddress || '')) {
+-      throw new PoBoxError(rawStreetName || components.rawAddress);
++    if (this.isPoBox(rawStreetName) || this.isPoBox(components.rawAddress || '') || this.isPoBox(streetNumber)) {
++      throw new PoBoxError(rawStreetName || components.rawAddress || streetNumber);
+     }
+ 
+     // Extract unit if embedded in streetName
