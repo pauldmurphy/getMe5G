@@ -63,19 +63,20 @@ Orchestrate end-to-end delivery of the 5G Home Internet and wireless broadband a
 | challenger_m1_1 | teamwork_preview_challenger | M1 Normalization Stress Test | in-progress | 40be56d9-1c8b-4f12-87b3-d7d815f034a1 |
 | challenger_m1_2 | teamwork_preview_challenger | M1 Resilience & Timeout Stress Test | in-progress | 36c59c52-f64e-4088-b319-ec76edd9abc3 |
 | auditor_m1_1 | teamwork_preview_auditor | M1 Forensic Integrity Audit | completed | e4c33d31-a1ac-42d6-bd54-726b78eca4bb |
-| explorer_m1_r2_1 | teamwork_preview_explorer | Address Normalizer Fix Plan | in-progress | 61cf0cd1-6ceb-4be8-bea6-920f7a8188ed |
-| explorer_m1_r2_2 | teamwork_preview_explorer | Cascade Error Handling Fix Plan | in-progress | 6a74393d-435d-48d2-8ff4-6eb00b697a18 |
-| explorer_m1_r2_3 | teamwork_preview_explorer | Geocoder Country Bounds Fix Plan | in-progress | 2783b971-f1fd-44e9-afeb-3eed5dbc6f6a |
+| explorer_m1_r2_1 | teamwork_preview_explorer | Address Normalizer Fix Plan | completed | 61cf0cd1-6ceb-4be8-bea6-920f7a8188ed |
+| explorer_m1_r2_2 | teamwork_preview_explorer | Cascade Error Handling Fix Plan | completed | 6a74393d-435d-48d2-8ff4-6eb00b697a18 |
+| explorer_m1_r2_3 | teamwork_preview_explorer | Geocoder Country Bounds Fix Plan | completed | 2783b971-f1fd-44e9-afeb-3eed5dbc6f6a |
+| worker_m1_2 | teamwork_preview_worker | Apply M1 Code Fixes | in-progress | a790ae50-2bde-488b-a237-337c6662adb9 |
 
 ## Succession Status
-- Succession required: yes (upon completion of current 3 explorers)
-- Spawn count: 16 / 16
-- Pending subagents: 61cf0cd1-6ceb-4be8-bea6-920f7a8188ed, 6a74393d-435d-48d2-8ff4-6eb00b697a18, 2783b971-f1fd-44e9-afeb-3eed5dbc6f6a
+- Succession required: no (orchestrator self-spawning not supported by platform; operating directly as permanent orchestrator under 128 quota)
+- Spawn count: 17 / 128
+- Pending subagents: a790ae50-2bde-488b-a237-337c6662adb9
 - Predecessor: none
-- Successor: not yet spawned
+- Successor: none (direct execution)
 
 ## Active Timers
-- Heartbeat cron: 097744dd-87b6-414e-a580-658af286e0dd/task-16
+- Heartbeat cron: 097744dd-87b6-414e-a580-658af286e0dd/task-227
 - Safety timer: none
 - On succession: kill all timers before spawning successor
 - On context truncation: run `manage_task(Action="list")` — re-create if missing
