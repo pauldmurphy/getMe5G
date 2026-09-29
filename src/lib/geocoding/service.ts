@@ -6,6 +6,7 @@ import {
   SuggestOptions,
   AddressNotFoundError,
   AddressValidationError,
+  GeocodingError,
 } from './types';
 import { AddressNormalizer } from './normalizer';
 import { CensusGeocoder } from './census-geocoder';
@@ -123,6 +124,9 @@ export class GeocodingService implements IGeocoderService {
         this.cache.set(cacheKey, { address: result, timestamp: Date.now() });
         return result;
       } catch (err) {
+        if (err instanceof AddressValidationError) {
+          throw err;
+        }
         console.warn('[GeocodingService] Google geocode failed, falling back:', err);
         lastError = err;
       }
@@ -134,6 +138,9 @@ export class GeocodingService implements IGeocoderService {
         this.cache.set(cacheKey, { address: result, timestamp: Date.now() });
         return result;
       } catch (err) {
+        if (err instanceof AddressValidationError) {
+          throw err;
+        }
         console.warn('[GeocodingService] Mapbox geocode failed, falling back:', err);
         lastError = err;
       }
@@ -148,6 +155,9 @@ export class GeocodingService implements IGeocoderService {
       this.cache.set(cacheKey, { address: result, timestamp: Date.now() });
       return result;
     } catch (err) {
+      if (err instanceof AddressValidationError) {
+        throw err;
+      }
       console.warn('[GeocodingService] Census geocode failed, falling back to Photon:', err);
       lastError = err;
     }
@@ -158,6 +168,9 @@ export class GeocodingService implements IGeocoderService {
       this.cache.set(cacheKey, { address: result, timestamp: Date.now() });
       return result;
     } catch (err) {
+      if (err instanceof AddressValidationError) {
+        throw err;
+      }
       console.warn('[GeocodingService] Photon geocode failed, falling back to Nominatim:', err);
       lastError = err;
     }
@@ -168,12 +181,21 @@ export class GeocodingService implements IGeocoderService {
       this.cache.set(cacheKey, { address: result, timestamp: Date.now() });
       return result;
     } catch (err) {
+      if (err instanceof AddressValidationError) {
+        throw err;
+      }
       console.warn('[GeocodingService] Nominatim geocode failed:', err);
       lastError = err;
     }
 
     // All cascade tiers exhausted
+    if (lastError instanceof AddressValidationError) {
+      throw lastError;
+    }
     if (lastError instanceof AddressNotFoundError) {
+      throw lastError;
+    }
+    if (lastError instanceof GeocodingError) {
       throw lastError;
     }
     throw new AddressNotFoundError(address, 'cascade_all');
@@ -192,6 +214,9 @@ export class GeocodingService implements IGeocoderService {
     try {
       return await this.nominatimGeocoder.resolveCoordinates(lat, lng, options);
     } catch (err) {
+      if (err instanceof AddressValidationError) {
+        throw err;
+      }
       console.warn('[GeocodingService] Nominatim reverse geocode failed:', err);
       throw new AddressNotFoundError(`Coordinates (${lat}, ${lng})`, 'nominatim');
     }
