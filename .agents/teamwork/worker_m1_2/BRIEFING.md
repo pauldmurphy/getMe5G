@@ -1,4 +1,4 @@
-# BRIEFING — 2026-09-29T22:23:00Z
+# BRIEFING — 2026-09-29T22:27:00Z
 
 ## Mission
 Milestone 1 Iteration 2: Apply validated geocoding subsystem fixes across normalizer.ts, service.ts, photon-geocoder.ts, and nominatim-geocoder.ts, then verify and report.
@@ -31,23 +31,30 @@ Milestone 1 Iteration 2: Apply validated geocoding subsystem fixes across normal
 - **Code layout**: src/lib/geocoding/
 
 ## Key Decisions Made
-- [TBD]
+- Replaced normalizer.ts with explorer_m1_r2_1's validated proposed_normalizer.ts byte-for-byte.
+- In service.ts, added immediate AddressValidationError re-throw guards across all 5 cascade tiers and reverse geocoding, plus cascade exhaustion preservation of GeocodingError.
+- In photon-geocoder.ts and nominatim-geocoder.ts, added US territorial bounds constants and country checking (isUsPhotonFeature, isUsNominatimPlace) with OutOfBoundsError thrown on foreign address resolution.
 
 ## Artifact Index
 - DISPATCH.md — Assignment instructions
 - progress.md — Liveness heartbeat and step tracking
 - changes.md — Record of modifications made
 - handoff.md — 5-component handoff report
+- verify_all.py — Comprehensive 4-subsystem verification script
 
 ## Change Tracker
-- **Files modified**: None yet
-- **Build status**: Untested
+- **Files modified**:
+  - `src/lib/geocoding/normalizer.ts`: Complete drop-in replacement resolving PO Box, Unit (#), suffix, and zip defects.
+  - `src/lib/geocoding/service.ts`: Fail-fast error preservation for AddressValidationError and GeocodingError.
+  - `src/lib/geocoding/photon-geocoder.ts`: Added US bounds and country filtering with OutOfBoundsError.
+  - `src/lib/geocoding/nominatim-geocoder.ts`: Added US bounds and country filtering with OutOfBoundsError.
+- **Build status**: All verifications passed (verify_patch.py and verify_all.py).
 - **Pending issues**: None
 
 ## Quality Status
-- **Build/test result**: Pending verification
+- **Build/test result**: PASS (Dual-suite verify_patch.py: 36/36 stress tests pass, 69/69 reviewer tests pass; verify_all.py: 4/4 subsystems pass)
 - **Lint status**: 0
-- **Tests added/modified**: Pending
+- **Tests added/modified**: Created verify_all.py covering all 4 modified components
 
 ## Loaded Skills
 None

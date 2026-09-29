@@ -5,6 +5,7 @@ import {
   GeocodeOptions,
   SuggestOptions,
   AddressNotFoundError,
+  OutOfBoundsError,
 } from './types';
 import { AddressNormalizer } from './normalizer';
 
@@ -24,7 +25,53 @@ interface NominatimPlace {
     state?: string;
     postcode?: string;
     country_code?: string;
+    country?: string;
   };
+}
+
+const US_MIN_LAT = 17.5;
+const US_MAX_LAT = 72.0;
+const US_MIN_LNG = -179.0;
+const US_MAX_LNG = -64.0;
+
+/**
+ * Validates whether a Nominatim place represents a location inside the United States
+ * based on territorial bounding box and country code / country name metadata.
+ */
+function isUsNominatimPlace(place: NominatimPlace): boolean {
+  const lat = parseFloat(place.lat);
+  const lng = parseFloat(place.lon);
+
+  // 1. Territorial bounding box check: 17.5 <= lat <= 72.0 and -179.0 <= lng <= -64.0
+  if (isNaN(lat) || isNaN(lng) || lat < US_MIN_LAT || lat > US_MAX_LAT || lng < US_MIN_LNG || lng > US_MAX_LNG) {
+    return false;
+  }
+
+  // 2. Country metadata checks
+  const addr = place.address || {};
+  const countryCode = addr.country_code?.trim().toLowerCase();
+  const country = addr.country?.trim().toLowerCase();
+
+  // Reject explicit foreign country tags
+  if (countryCode && countryCode !== 'us') {
+    return false;
+  }
+  if (
+    country &&
+    country !== 'united states' &&
+    country !== 'united states of america' &&
+    country !== 'usa'
+  ) {
+    return false;
+  }
+
+  // Affirmative match for US
+  return (
+    countryCode === 'us' ||
+    country === 'united states' ||
+    country === 'united states of america' ||
+    country === 'usa'
+  );
 }
 
 export class NominatimGeocoder implements IGeocoderService {
@@ -62,7 +109,16 @@ export class NominatimGeocoder implements IGeocoderService {
       if (!response.ok) return [];
 
       const results: NominatimPlace[] = await response.json();
-      return results.map((item) => {
+      if (!Array.isArray(results)) return [];
+
+      const suggestions: AddressSuggestion[] = [];
+
+      for (const item of results) {
+        // Enforce US territorial bounds and country filtering
+        if (!isUsNominatimPlace(item)) {
+          continue;
+        }
+
         const addr = item.address || {};
         const houseNumber = addr.house_number || '';
         const road = addr.road || '';
@@ -72,8 +128,10 @@ export class NominatimGeocoder implements IGeocoderService {
         const state = AddressNormalizer.normalizeState(addr.state || '');
         const zip5 = addr.postcode || '';
 
+        if (!streetLine || !city || !state) continue;
+
         const secondaryText = `${city}, ${state}${zip5 ? ' ' + zip5 : ''}`;
-        return {
+        suggestions.push({
           id: `nominatim-${item.place_id}`,
           label: `${streetLine}, ${secondaryText}`,
           streetLine,
@@ -84,8 +142,10 @@ export class NominatimGeocoder implements IGeocoderService {
           lng: parseFloat(item.lon),
           source: this.providerName,
           secondaryText,
-        };
-      });
+        });
+      }
+
+      return suggestions;
     } catch {
       return [];
     }
@@ -99,7 +159,7 @@ export class NominatimGeocoder implements IGeocoderService {
       format: 'jsonv2',
       addressdetails: '1',
       countrycodes: 'us',
-      limit: '1',
+      limit: '3',
     });
 
     const response = await fetch(`${this.baseUrl}/search?${params.toString()}`, {
@@ -119,7 +179,18 @@ export class NominatimGeocoder implements IGeocoderService {
       throw new AddressNotFoundError(address, this.providerName);
     }
 
-    const item = results[0];
+    // Filter results to valid US locations
+    const usResults = results.filter(isUsNominatimPlace);
+
+    // If Nominatim returned results but all are outside the US, throw OutOfBoundsError
+    if (usResults.length === 0) {
+      const foreignItem = results[0];
+      const fLat = parseFloat(foreignItem.lat);
+      const fLng = parseFloat(foreignItem.lon);
+      throw new OutOfBoundsError(isNaN(fLat) ? 0 : fLat, isNaN(fLng) ? 0 : fLng);
+    }
+
+    const item = usResults[0];
     const addr = item.address || {};
     const streetNumber = addr.house_number || '';
     const streetName = addr.road || '';
@@ -149,6 +220,11 @@ export class NominatimGeocoder implements IGeocoderService {
     lng: number,
     options?: GeocodeOptions
   ): Promise<NormalizedAddress> {
+    // Upfront territorial bounding box check
+    if (lat < US_MIN_LAT || lat > US_MAX_LAT || lng < US_MIN_LNG || lng > US_MAX_LNG) {
+      throw new OutOfBoundsError(lat, lng);
+    }
+
     const params = new URLSearchParams({
       lat: String(lat),
       lon: String(lng),
@@ -169,7 +245,25 @@ export class NominatimGeocoder implements IGeocoderService {
     }
 
     const item: NominatimPlace = await response.json();
-    const addr = item.address || {};
+    if (!item || !item.address) {
+      throw new AddressNotFoundError(`Coordinates (${lat}, ${lng})`, this.providerName);
+    }
+
+    // Verify reverse-geocoded location is within the United States
+    const addr = item.address;
+    const countryCode = addr.country_code?.trim().toLowerCase();
+    const country = addr.country?.trim().toLowerCase();
+
+    const isUsCountry =
+      countryCode === 'us' ||
+      country === 'united states' ||
+      country === 'united states of america' ||
+      country === 'usa';
+
+    if ((countryCode && countryCode !== 'us') || (country && !isUsCountry) || !isUsCountry) {
+      throw new OutOfBoundsError(lat, lng);
+    }
+
     const streetNumber = addr.house_number || '';
     const streetName = addr.road || '';
     const city = addr.city || addr.town || addr.village || '';
