@@ -1,0 +1,16 @@
+{
+    // Controls when the agent must stop and await approval on generated artifacts
+    // Options: "asks-for-review" (default), "agent-decides", "always-proceed"
+    "artifactReviewPolicy": "asks-for-review",
+    // Default agent execution style: forces planning artifacts before code generation
+    // Options: "plan", "default", "accept-edits"
+    "agentMode": "plan",
+    // Authorization gate for tools (terminal, bash execution, file writes)
+    // Options: "request-review" (default), "strict", "proceed-in-sandbox", "always-proceed"
+    "toolPermission": "request-review",
+    // Locks all terminal, browser, and artifact policies to mandatory human review
+    "strictMode": false,
+    // Isolation & filesystem boundary gates
+    "enableTerminalSandbox": true,
+    "allowNonWorkspaceAccess": false
+}
